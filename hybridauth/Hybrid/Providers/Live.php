@@ -37,6 +37,12 @@ class Hybrid_Providers_Live extends Hybrid_Provider_Model_OAuth2 {
 		$this->api->token_url = 'https://login.live.com/oauth20_token.srf';
 
 		$this->api->curl_authenticate_method = "GET";
+		
+		// Override the redirect uri when it's set in the config parameters. This way we prevent
+		// redirect uri mismatches when authenticating with Live.com
+		if (isset($this->config['redirect_uri']) && !empty($this->config['redirect_uri'])) {
+			$this->api->redirect_uri = $this->config['redirect_uri'];
+		}
 	}
 
 	/**
